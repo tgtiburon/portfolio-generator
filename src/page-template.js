@@ -1,3 +1,47 @@
+
+// create the about section
+const generateAbout = aboutText => {
+    if(!aboutText) {
+        //no about text so return and empty string
+        return '';
+    }
+    //there is about text so lets send a literal string
+    return `
+        <section class="my-3" id="about">
+            <h2 class="text-dark bg-primary p-2 display-inline-block">About Me</h2>
+            <p>${aboutText}</p>
+        </section>
+    `;
+};
+// we use .map() to iterate through the projectArr, we destruct each project's object data 
+// based on the property name and we return an entire set of HTML Code
+
+const generateProjects = projectsArr => {
+    const projectHTMLArr = projectsArr.map(({name,description, languages, link}) => {
+        return `
+            <div class="col-12 col-md mb-2 bg-dark text-light p-3 flex-column">
+                <h3 class="portfolio-item-title text-light">${name}</h3>
+                <h5 class="portfolio-languages">
+                    Built With:
+                    ${languages.join(',')}
+                </h5>
+                <p>${description}</p>
+                <a href="${link}" class="btn mt-auto"><i class="fab fa-github mr-2"></i>View Project on GitHub</a>
+            </div>
+        `;
+
+    });
+    return `
+        <section class="my-3" id="portfolio">
+            <h2 class="text-dark bg-primary p-2 display-inline-block">Work</h2>
+            <div class="flew-row justify-space-between>
+                <!-- Leaving this empty as we'll dynamically instert project HTML here -->
+            </div>
+        </section>
+    `;
+};
+
+
 module.exports = templateData => {
     console.log(templateData);
 
@@ -32,6 +76,11 @@ module.exports = templateData => {
                 </div>
             </header>
             <main class = "container my-5">
+
+                <main class="container my-5">
+                    ${generateAbout(about)}
+                    ${generateProjects(projects)}
+                </main>
 
             </main>
             <footer class="container text-center py-3">

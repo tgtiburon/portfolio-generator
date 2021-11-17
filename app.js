@@ -225,11 +225,15 @@ promptProject = portfolioData => {
 // DEBUGGING MockData
 
 
-promptUser()
+promptUser() 
    .then(promptProject)
    .then(portfolioData  => {
-        const pageHTML = generatePage(mockData);
-        console.log(portfolioData);
+   // debugger;
+       // const pageHTML = generatePage(mockData);
+        //console.log(pageHTML);
+        portfolioData = mockData;
+       const pageHTML = generatePage(portfolioData);
+       // console.log(portfolioData);
         //const pageHTML = generatePage(name, github);
 
         // arguments first is the file to be made
@@ -241,7 +245,9 @@ promptUser()
 
            console.log('Portfolio complete! Check out the index.html to see the output!');
         });
-    });
+   });
+
+    
       
     
     
