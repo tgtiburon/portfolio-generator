@@ -17,29 +17,51 @@ const generateAbout = aboutText => {
 // based on the property name and we return an entire set of HTML Code
 
 const generateProjects = projectsArr => {
-    const projectHTMLArr = projectsArr.map(({name,description, languages, link}) => {
-        return `
-            <div class="col-12 col-md mb-2 bg-dark text-light p-3 flex-column">
-                <h3 class="portfolio-item-title text-light">${name}</h3>
-                <h5 class="portfolio-languages">
-                    Built With:
-                    ${languages.join(',')}
-                </h5>
-                <p>${description}</p>
-                <a href="${link}" class="btn mt-auto"><i class="fab fa-github mr-2"></i>View Project on GitHub</a>
-            </div>
-        `;
-
-    });
     return `
         <section class="my-3" id="portfolio">
             <h2 class="text-dark bg-primary p-2 display-inline-block">Work</h2>
-            <div class="flew-row justify-space-between>
-                <!-- Leaving this empty as we'll dynamically instert project HTML here -->
+            <div class="flex-row justify-space-between">
+
+                ${projectsArr
+                    .filter(({feature})=> feature)
+                    .map(({name,description, languages, link})=> {
+                        return `
+                        <div class="col-12 mb-2 bg-dark text-light p-3">
+                            <h3 class="portfolio-item-title text-light">${name}</h3>
+                            <h5 class="potfolio-languages">
+                                Built With:
+                                ${languages.map(language => language).join(',')}
+                            </h5>
+                            <p>${description}</p>
+                            <a href="${link}" class="btn"><i class="fab fa-github mr-2"></i>View Project on GitHub</a>
+                        </div>
+                    `;
+                            
+                    })
+                    .join('')}
+                    
+                ${projectsArr
+                    .filter(({feature}) => !feature)
+                    .map(({name, description, languages, link}) => {
+                        return `
+                            <div class="col-12 col-md-6 mb-2 bg-dark text-light p-3 flex-column">
+                                <h3 class="portfolio-item-title text-light">${name}</h3>
+                                <h5 class="portfolio-languages">
+                                    Built With:
+                                    ${languages.join(', ')}
+                                </h5>
+                                <p>${description}</p>
+                                <a href="${link}" class="btn mt-auto"><i class="fa fa-github mr-2></i>View Project on GitHub</a>
+                            </div>
+                        `;
+                    })
+                    .join('')}
+
             </div>
         </section>
     `;
 };
+            
 
 
 module.exports = templateData => {
