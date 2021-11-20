@@ -2,7 +2,13 @@
 
 const inquirer = require('inquirer');
 // taking the module fs and saving it into an object fs
-const fs = require('fs'); // filesystem module 
+//const fs = require('fs'); // filesystem module 
+
+// Use our own fs functions
+//const generateSite = require("./utils/generate-site.js");
+// Since we exported an object from generate-site.js we can
+// deconstruct that object like this
+const {writeFile, copyFile} = require('./utils/generate-site.js');
 // lets use our generatePage from page-template.js
 const generatePage = require('./src/page-template.js');
 
@@ -206,26 +212,61 @@ promptProject = portfolioData => {
 
 }
 
+
+
+// New promptUser() using promises
+promptUser()
+    .then(promptProject)
+    .then(portfolioData => {
+       // return generatePage(portfolioData);
+       return generatePage(mockData);
+
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
 // DEBUGGING MockData
+// old prompt user
 
-
-promptUser() 
-   .then(promptProject)
-   .then(portfolioData  => {
+// promptUser() 
+//    .then(promptProject)
+//    .then(portfolioData  => {
    
-       // portfolioData = mockData;
-       const pageHTML = generatePage(portfolioData);
+//         portfolioData = mockData;
+//        const pageHTML = generatePage(portfolioData);
       
-        // arguments first is the file to be made
-        // second: html template
-        // third: callback function to handle any errors as well as success.
-        fs.writeFile('./index.html', pageHTML, err => {
-         //    throw error will stop the execution of code.
-           if(err) throw new Error(err);
+//         // arguments first is the file to be made
+//         // second: html template
+//         // third: callback function to handle any errors as well as success.
+//         fs.writeFile('./dist/index.html', pageHTML, err => {
+//          //    throw error will stop the execution of code.
+//            if(err) {
+//                console.log(err);
+//                return;
+//            }
 
-           console.log('Portfolio complete! Check out the index.html to see the output!');
-        });
-   });
+//            console.log('Portfolio complete! Check out the index.html to see the output!');
+//            // By place fs.copyFile here we know for sure that fs.writefile was successful
+//            fs.copyFile("./src/style.css", "./dist/style.css", err => {
+//                if(err) {
+//                    console.log(err);
+//                    return;
+//                }
+//                console.log("Style sheet copied successfully!");
+//            })
+//         });
+//    });
 
     
       
